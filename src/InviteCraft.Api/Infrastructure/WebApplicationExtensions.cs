@@ -18,7 +18,8 @@ internal static class WebApplicationExtensions
         app.UseForwardedHeaders();
         app.UseExceptionHandler();
 
-        if (!app.Environment.IsDevelopment())
+        // Render terminates TLS at its proxy. Redirecting inside the container breaks the health check.
+        if (!app.Environment.IsDevelopment() && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("ASPNETCORE_HTTPS_PORT")))
         {
             app.UseHsts();
             app.UseHttpsRedirection();
