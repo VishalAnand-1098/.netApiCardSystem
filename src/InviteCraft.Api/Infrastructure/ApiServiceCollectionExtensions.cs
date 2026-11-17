@@ -45,8 +45,10 @@ internal static class ApiServiceCollectionExtensions
 
         services.Configure<ForwardedHeadersOptions>(options =>
         {
-            // nginx terminates TLS in production; trusted proxies are configured in Phase 13.
+            // The platform proxy (Render, nginx) terminates TLS. The container only sees that proxy.
             options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            options.KnownNetworks.Clear();
+            options.KnownProxies.Clear();
         });
 
         services.AddSpaCors(configuration);
