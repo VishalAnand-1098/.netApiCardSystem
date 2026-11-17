@@ -19,28 +19,17 @@ public class DownloadPolicyTests
     private static Template TemplateOf(TemplateTier tier) => new() { Tier = tier, WidthMm = 127, HeightMm = 178 };
 
     [Fact]
-    public void A_premium_design_that_was_not_purchased_only_gets_a_low_resolution_watermarked_jpg()
+    public void An_unpaid_design_cannot_download_any_file()
     {
-        var entitlement = DownloadPolicy.Resolve(new Invitation(), TemplateOf(TemplateTier.Premium), Packages);
+        foreach (var tier in new[] { TemplateTier.Premium, TemplateTier.Free })
+        {
+            var entitlement = DownloadPolicy.Resolve(new Invitation(), TemplateOf(tier), Packages);
 
-        entitlement.PackageCode.ShouldBe(DownloadPolicy.PreviewCode);
-        entitlement.PreviewOnly.ShouldBeTrue();
-        entitlement.Watermark.ShouldBeTrue();
-        entitlement.Formats.ShouldBe([DownloadFormat.Jpg]);
-        entitlement.MaxDpi.ShouldBe(96);
-        entitlement.MaxDownloads.ShouldBeNull();
-    }
-
-    [Fact]
-    public void A_free_design_uses_the_free_package_without_a_watermark()
-    {
-        var entitlement = DownloadPolicy.Resolve(new Invitation(), TemplateOf(TemplateTier.Free), Packages);
-
-        entitlement.PackageCode.ShouldBe("FREE");
-        entitlement.Watermark.ShouldBeFalse();
-        entitlement.Formats.ShouldBe([DownloadFormat.Jpg, DownloadFormat.Png]);
-        entitlement.MaxDpi.ShouldBe(150);
-        entitlement.PreviewOnly.ShouldBeFalse();
+            entitlement.PackageCode.ShouldBe(DownloadPolicy.PreviewCode);
+            entitlement.PreviewOnly.ShouldBeTrue();
+            entitlement.Formats.ShouldBeEmpty();
+            entitlement.MaxDownloads.ShouldBe(0);
+        }
     }
 
     [Fact]
@@ -66,11 +55,12 @@ public class DownloadPolicyTests
     }
 
     [Fact]
-    public void If_the_purchased_package_was_removed_the_invitation_falls_back_to_the_design_tier_rules()
+    public void If_the_purchased_package_was_removed_the_invitation_cannot_download()
     {
         var entitlement = DownloadPolicy.Resolve(new Invitation { UnlockedPackageId = Guid.NewGuid() }, TemplateOf(TemplateTier.Premium), Packages);
 
         entitlement.PreviewOnly.ShouldBeTrue();
+        entitlement.Formats.ShouldBeEmpty();
     }
 
     [Theory]

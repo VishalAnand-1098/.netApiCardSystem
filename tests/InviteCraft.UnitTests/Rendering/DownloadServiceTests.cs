@@ -68,18 +68,17 @@ public class DownloadServiceTests
     // ------------------------------------------------------------------ options
 
     [Fact]
-    public async Task Options_for_a_premium_design_that_is_not_purchased_offer_only_the_watermarked_preview()
+    public async Task Options_for_an_unpaid_invitation_allow_no_file()
     {
         var result = await _sut.GetOptionsAsync(_userId, _invitation.Id, Ct);
 
         result.IsSuccess.ShouldBeTrue();
         var options = result.Value;
         options.PackageCode.ShouldBe("PREVIEW");
-        options.Watermark.ShouldBeTrue();
-        options.CanDownload.ShouldBeTrue();
-        options.Formats.Where(f => f.Available).Select(f => f.Format).ShouldBe([DownloadFormat.Jpg]);
-        options.Formats.Single(f => f.Format == DownloadFormat.Jpg).Qualities.ShouldBe([new DownloadQualityDto(96, 480, 672, "Web")]);
-        options.Formats.Single(f => f.Format == DownloadFormat.Png).Reason!.ShouldContain("Unlock");
+        options.CanDownload.ShouldBeFalse();
+        options.BlockedReason.ShouldBe(DownloadErrors.PaymentRequired.Message);
+        options.Formats.ShouldAllBe(f => !f.Available);
+        options.Formats.ShouldAllBe(f => f.Reason!.Contains("Pay"));
     }
 
     [Fact]
@@ -100,6 +99,7 @@ public class DownloadServiceTests
     [Fact]
     public async Task Options_explain_why_downloading_is_blocked()
     {
+        Unlock(_basic);
         _invitation.FieldValues.Clear();
 
         var options = (await _sut.GetOptionsAsync(_userId, _invitation.Id, Ct)).Value;
@@ -127,38 +127,27 @@ public class DownloadServiceTests
     // ------------------------------------------------------------------ create
 
     [Fact]
-    public async Task Creating_a_preview_queues_a_watermarked_96_dpi_job_and_hands_it_to_the_workers()
+    public async Task An_unpaid_invitation_cannot_queue_any_download()
     {
-        Download? saved = null;
-        await _downloads.AddAsync(Arg.Do<Download>(d => saved = d), Arg.Any<CancellationToken>());
+        foreach (var format in Enum.GetValues<DownloadFormat>())
+            (await Create(format)).FirstError.ShouldBe(DownloadErrors.PaymentRequired);
 
-        var result = await Create(DownloadFormat.Jpg);
+        _template.Tier = TemplateTier.Free;
+        (await Create(DownloadFormat.Jpg)).FirstError.ShouldBe(DownloadErrors.PaymentRequired);
 
-        result.IsSuccess.ShouldBeTrue(result.FirstError?.Message);
-        saved.ShouldNotBeNull();
-        saved.UserId.ShouldBe(_userId);
-        saved.InvitationId.ShouldBe(_invitation.Id);
-        saved.Format.ShouldBe(DownloadFormat.Jpg);
-        saved.Dpi.ShouldBe(96);
-        saved.HasWatermark.ShouldBeTrue();
-        saved.Status.ShouldBe(DownloadStatus.Queued);
-        saved.ExpiresAt.ShouldBe(Now.AddDays(DownloadPolicy.FileRetentionDays));
-        saved.IpAddress.ShouldBe(System.Net.IPAddress.Loopback);
-        await _unitOfWork.Received(1).SaveChangesAsync(Arg.Any<CancellationToken>());
-        await _queue.Received(1).EnqueueAsync(saved.Id, Arg.Any<CancellationToken>());
-        result.Value.Status.ShouldBe(DownloadStatus.Queued);
-        result.Value.DownloadUrl.ShouldBeNull();
+        await _queue.DidNotReceive().EnqueueAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>());
+        await _downloads.DidNotReceive().AddAsync(Arg.Any<Download>(), Arg.Any<CancellationToken>());
     }
 
     [Fact]
-    public async Task Formats_outside_the_entitlement_are_refused_and_nothing_is_queued()
+    public async Task Formats_outside_the_purchased_package_are_refused_and_nothing_is_queued()
     {
-        var png = await Create(DownloadFormat.Png);
+        Unlock(_basic);
+
         var pdf = await Create(DownloadFormat.PrintPdf);
 
-        png.FirstError!.Code.ShouldBe("Download.FormatNotAvailable");
-        png.FirstError.Message.ShouldContain("Unlock");
         pdf.FirstError!.Code.ShouldBe("Download.FormatNotAvailable");
+        pdf.FirstError.Message.ShouldContain("Luxury");
         await _queue.DidNotReceive().EnqueueAsync(Arg.Any<Guid>(), Arg.Any<CancellationToken>());
         await _downloads.DidNotReceive().AddAsync(Arg.Any<Download>(), Arg.Any<CancellationToken>());
     }
@@ -201,14 +190,15 @@ public class DownloadServiceTests
 
         blocked.FirstError!.Code.ShouldBe("Download.AllowanceUsed");
 
-        _invitation.UnlockedPackageId = null; // back to the watermarked preview: unlimited and not counted
-        (await Create(DownloadFormat.Jpg)).IsSuccess.ShouldBeTrue();
+        _invitation.UnlockedPackageId = null;
+        (await Create(DownloadFormat.Jpg)).FirstError.ShouldBe(DownloadErrors.PaymentRequired);
         await _downloads.Received(1).CountBillableAsync(_invitation.Id, Arg.Any<CancellationToken>()); // only the purchased attempt asked
     }
 
     [Fact]
     public async Task Too_many_renders_in_progress_are_refused()
     {
+        Unlock(_basic);
         _downloads.CountInProgressAsync(_userId, Arg.Any<CancellationToken>()).Returns(DownloadPolicy.MaxInProgressPerUser);
 
         (await Create(DownloadFormat.Jpg)).FirstError.ShouldBe(DownloadErrors.TooManyInProgress);
@@ -217,6 +207,7 @@ public class DownloadServiceTests
     [Fact]
     public async Task An_invitation_with_missing_required_details_cannot_be_downloaded()
     {
+        Unlock(_basic);
         _invitation.FieldValues.Single().Value = "   ";
 
         (await Create(DownloadFormat.Jpg)).FirstError.ShouldBe(DownloadErrors.NotReady);
@@ -247,6 +238,7 @@ public class DownloadServiceTests
     [Fact]
     public async Task A_ready_download_comes_with_a_short_lived_signed_link_and_a_friendly_file_name()
     {
+        Unlock(_basic);
         var download = Stored(DownloadStatus.Ready);
 
         var dto = (await _sut.GetAsync(_userId, download.Id, Ct)).Value;
@@ -295,8 +287,9 @@ public class DownloadServiceTests
     }
 
     [Fact]
-    public async Task The_file_is_streamed_only_for_a_valid_signature()
+    public async Task The_file_is_streamed_only_for_a_valid_signature_on_a_paid_invitation()
     {
+        Unlock(_basic);
         var download = Stored(DownloadStatus.Ready);
         _storage.OpenReadAsync("private/downloads/x.jpg", Arg.Any<CancellationToken>()).Returns(_ => new MemoryStream(Encoding.ASCII.GetBytes("jpeg")));
         _signer.IsValid(download.Id, 99, "good", Now).Returns(true);
@@ -311,8 +304,21 @@ public class DownloadServiceTests
     }
 
     [Fact]
+    public async Task A_signed_link_for_an_unpaid_invitation_does_not_return_the_file()
+    {
+        var download = Stored(DownloadStatus.Ready, watermark: true);
+        _signer.IsValid(download.Id, 99, "good", Now).Returns(true);
+        _storage.OpenReadAsync(download.StorageKey!, Arg.Any<CancellationToken>()).Returns(_ => new MemoryStream(Encoding.ASCII.GetBytes("jpeg")));
+
+        (await _sut.GetAsync(_userId, download.Id, Ct)).Value.DownloadUrl.ShouldBeNull();
+        (await _sut.OpenFileAsync(download.Id, 99, "good", Ct)).FirstError.ShouldBe(DownloadErrors.PaymentRequired);
+        await _storage.DidNotReceive().OpenReadAsync(Arg.Any<string>(), Arg.Any<CancellationToken>());
+    }
+
+    [Fact]
     public async Task A_valid_link_still_fails_when_the_file_has_expired_or_vanished()
     {
+        Unlock(_basic);
         var expired = Stored(DownloadStatus.Ready, expiresAt: Now.AddMinutes(-5));
         _signer.IsValid(expired.Id, 99, "good", Now).Returns(true);
         (await _sut.OpenFileAsync(expired.Id, 99, "good", Ct)).FirstError.ShouldBe(DownloadErrors.Expired);

@@ -341,7 +341,7 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\visha\\.nuget\\packages\\": {},
+    "C:\\Users\\visha\\AppData\\Local\\Temp\\cursor-sandbox-cache\\8386307f69220d05df49d751db5c9dd7\\nuget": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
@@ -350,7 +350,7 @@
       "projectUniqueName": "C:\\cardsharingplatform\\backend\\src\\InviteCraft.Application\\InviteCraft.Application.csproj",
       "projectName": "InviteCraft.Application",
       "projectPath": "C:\\cardsharingplatform\\backend\\src\\InviteCraft.Application\\InviteCraft.Application.csproj",
-      "packagesPath": "C:\\Users\\visha\\.nuget\\packages\\",
+      "packagesPath": "C:\\Users\\visha\\AppData\\Local\\Temp\\cursor-sandbox-cache\\8386307f69220d05df49d751db5c9dd7\\nuget",
       "outputPath": "C:\\cardsharingplatform\\backend\\src\\InviteCraft.Application\\obj\\",
       "projectStyle": "PackageReference",
       "centralPackageVersionsManagementEnabled": true,
@@ -466,7 +466,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.403/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.404/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.CSharp": "(,4.7.32767]",
           "Microsoft.VisualBasic": "(,10.4.32767]",

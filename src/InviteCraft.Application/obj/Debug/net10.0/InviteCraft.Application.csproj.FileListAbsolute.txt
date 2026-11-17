@@ -13,3 +13,4 @@ C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\Inv
 C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\refint\InviteCraft.Application.dll
 C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\InviteCraft.Application.pdb
 C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\ref\InviteCraft.Application.dll
+C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\InviteCraft.Application.sourcelink.json

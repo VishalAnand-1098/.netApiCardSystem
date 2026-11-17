@@ -9,3 +9,4 @@ C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\InviteCr
 C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\refint\InviteCraft.Domain.dll
 C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\InviteCraft.Domain.pdb
 C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\ref\InviteCraft.Domain.dll
+C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\InviteCraft.Domain.sourcelink.json

@@ -1,15 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "Xz+6sd1bg2k=",
+  "dgSpecHash": "/wB/cKH4sf0=",
   "success": true,
   "projectFilePath": "C:\\cardsharingplatform\\backend\\src\\InviteCraft.Application\\InviteCraft.Application.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\visha\\.nuget\\packages\\fluentvalidation\\12.2.0\\fluentvalidation.12.2.0.nupkg.sha512",
-    "C:\\Users\\visha\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\12.2.0\\fluentvalidation.dependencyinjectionextensions.12.2.0.nupkg.sha512",
-    "C:\\Users\\visha\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\10.0.14\\microsoft.extensions.dependencyinjection.abstractions.10.0.14.nupkg.sha512",
-    "C:\\Users\\visha\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\10.0.14\\microsoft.extensions.logging.abstractions.10.0.14.nupkg.sha512",
-    "C:\\Users\\visha\\.nuget\\packages\\microsoft.extensions.options\\10.0.14\\microsoft.extensions.options.10.0.14.nupkg.sha512",
-    "C:\\Users\\visha\\.nuget\\packages\\microsoft.extensions.primitives\\10.0.14\\microsoft.extensions.primitives.10.0.14.nupkg.sha512"
+    "C:\\Users\\visha\\AppData\\Local\\Temp\\cursor-sandbox-cache\\8386307f69220d05df49d751db5c9dd7\\nuget\\fluentvalidation\\12.2.0\\fluentvalidation.12.2.0.nupkg.sha512",
+    "C:\\Users\\visha\\AppData\\Local\\Temp\\cursor-sandbox-cache\\8386307f69220d05df49d751db5c9dd7\\nuget\\fluentvalidation.dependencyinjectionextensions\\12.2.0\\fluentvalidation.dependencyinjectionextensions.12.2.0.nupkg.sha512",
+    "C:\\Users\\visha\\AppData\\Local\\Temp\\cursor-sandbox-cache\\8386307f69220d05df49d751db5c9dd7\\nuget\\microsoft.extensions.dependencyinjection.abstractions\\10.0.14\\microsoft.extensions.dependencyinjection.abstractions.10.0.14.nupkg.sha512",
+    "C:\\Users\\visha\\AppData\\Local\\Temp\\cursor-sandbox-cache\\8386307f69220d05df49d751db5c9dd7\\nuget\\microsoft.extensions.logging.abstractions\\10.0.14\\microsoft.extensions.logging.abstractions.10.0.14.nupkg.sha512",
+    "C:\\Users\\visha\\AppData\\Local\\Temp\\cursor-sandbox-cache\\8386307f69220d05df49d751db5c9dd7\\nuget\\microsoft.extensions.options\\10.0.14\\microsoft.extensions.options.10.0.14.nupkg.sha512",
+    "C:\\Users\\visha\\AppData\\Local\\Temp\\cursor-sandbox-cache\\8386307f69220d05df49d751db5c9dd7\\nuget\\microsoft.extensions.primitives\\10.0.14\\microsoft.extensions.primitives.10.0.14.nupkg.sha512"
   ],
   "logs": []
 }

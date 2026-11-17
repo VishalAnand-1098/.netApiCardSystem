@@ -15,12 +15,10 @@ public sealed record DownloadEntitlement(
     bool PreviewOnly);
 
 /// <summary>
-/// Decides what an invitation may download. The rules (ARCHITECTURE.md D5): high-resolution, watermark-free files
-/// only ever leave the server for entitled invitations.
+/// Decides what an invitation may download. A file leaves the server only after the invitation is paid for.
 /// <list type="bullet">
 /// <item>Unlocked (purchased) → the purchased package's formats, resolution, allowance and watermark setting.</item>
-/// <item>Free template, not purchased → the FREE package (JPG/PNG, 150 dpi, no watermark).</item>
-/// <item>Premium template, not purchased → a watermarked 96 dpi JPG preview that can be shared for approval.</item>
+/// <item>Not purchased, any template tier → no file. The on-screen preview stays; nothing can be downloaded.</item>
 /// </list>
 /// </summary>
 public static class DownloadPolicy
@@ -36,14 +34,15 @@ public static class DownloadPolicy
 
     public static DownloadEntitlement Resolve(Invitation invitation, Template template, IReadOnlyList<Package> packages)
     {
-        if (invitation.UnlockedPackageId is { } unlockedId && packages.FirstOrDefault(p => p.Id == unlockedId) is { } purchased)
+        if (invitation.IsUnlocked && invitation.UnlockedPackageId is { } unlockedId && packages.FirstOrDefault(p => p.Id == unlockedId) is { } purchased)
             return FromPackage(purchased, watermark: !purchased.RemovesWatermark);
 
-        if (template.Tier == TemplateTier.Free && packages.FirstOrDefault(p => p.Code == Package.FreeCode) is { } free)
-            return FromPackage(free, watermark: !free.RemovesWatermark);
-
-        return new DownloadEntitlement(PreviewCode, "Preview", [DownloadFormat.Jpg], PreviewDpi, MaxDownloads: null, Watermark: true, PreviewOnly: true);
+        return Locked();
     }
+
+    /// <summary>Unpaid invitation: the caller must not queue or stream a file.</summary>
+    public static DownloadEntitlement Locked() =>
+        new(PreviewCode, "Preview", [], PreviewDpi, MaxDownloads: 0, Watermark: true, PreviewOnly: true);
 
     private static DownloadEntitlement FromPackage(Package package, bool watermark) => new(
         package.Code, package.Name,

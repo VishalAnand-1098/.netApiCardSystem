@@ -11,6 +11,9 @@ public static class DownloadErrors
     public static readonly Error NotReady = Error.Validation("Download.InvitationIncomplete",
         "Fill in all required details before downloading.");
 
+    public static readonly Error PaymentRequired = Error.Forbidden("Download.PaymentRequired",
+        "Pay for this invitation before downloading. No file is available until the payment is confirmed.");
+
     public static readonly Error LinkInvalid = Error.NotFound("Download.LinkInvalid",
         "This download link is invalid or has expired. Open your downloads to get a new one.");
 

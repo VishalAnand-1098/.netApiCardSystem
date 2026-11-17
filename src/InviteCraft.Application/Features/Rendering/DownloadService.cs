@@ -56,11 +56,14 @@ internal sealed class DownloadService(
 
         var packages = await templates.GetActivePackagesAsync(cancellationToken);
         var entitlement = DownloadPolicy.Resolve(invitation, template, packages);
-        var used = entitlement.MaxDownloads is null || entitlement.Watermark ? 0 : await downloads.CountBillableAsync(invitationId, cancellationToken);
-        var remaining = entitlement.MaxDownloads is { } max && !entitlement.Watermark ? Math.Max(0, max - used) : (int?)null;
+        var used = entitlement.PreviewOnly || entitlement.MaxDownloads is null || entitlement.Watermark
+            ? 0
+            : await downloads.CountBillableAsync(invitationId, cancellationToken);
+        var remaining = entitlement.MaxDownloads is { } max && !entitlement.PreviewOnly && !entitlement.Watermark ? Math.Max(0, max - used) : (int?)null;
 
         var complete = RenderValueMapper.IsComplete(invitation, template);
-        var blocked = !complete ? DownloadErrors.NotReady.Message
+        var blocked = !invitation.IsUnlocked ? DownloadErrors.PaymentRequired.Message
+            : !complete ? DownloadErrors.NotReady.Message
             : remaining == 0 ? DownloadErrors.AllowanceUsed(entitlement.MaxDownloads!.Value).Message
             : null;
 
@@ -89,7 +92,7 @@ internal sealed class DownloadService(
         {
             var includedIn = packages.Where(p => p.AllowedFormats.Contains(format.ToString())).OrderBy(p => p.SortOrder).FirstOrDefault();
             reason = entitlement.PreviewOnly
-                ? "Unlock this design to download it without the watermark."
+                ? "Pay for this invitation before downloading any file."
                 : includedIn is null ? "Not available for this invitation." : $"Included from the {includedIn.Name} package.";
         }
 
@@ -119,6 +122,9 @@ internal sealed class DownloadService(
         var template = await templates.GetAggregateAsync(invitation.TemplateId, track: false, cancellationToken);
         if (template is null)
             return TemplateErrors.NotFound;
+
+        if (!invitation.IsUnlocked)
+            return DownloadErrors.PaymentRequired;
 
         if (!RenderValueMapper.IsComplete(invitation, template))
             return DownloadErrors.NotReady;
@@ -204,6 +210,8 @@ internal sealed class DownloadService(
         var download = await downloads.GetForRenderAsync(id, cancellationToken);
         if (download is null || download.Status != DownloadStatus.Ready || download.StorageKey is null)
             return DownloadErrors.NotFound;
+        if (download.Invitation is not { IsUnlocked: true })
+            return DownloadErrors.PaymentRequired;
         if (download.ExpiresAt is { } expires && expires < now)
             return DownloadErrors.Expired;
 
@@ -234,9 +242,13 @@ internal sealed class DownloadService(
         string? fileName = null;
         if (status == DownloadStatus.Ready)
         {
-            var linkExpires = now.AddMinutes(linkMinutes);
-            url = $"/api/v1/downloads/{d.Id}/file?exp={linkExpires.ToUnixTimeSeconds()}&sig={signer.Sign(d.Id, linkExpires)}";
             fileName = $"{FileNames.Slug(title)}{(d.HasWatermark ? "-preview" : string.Empty)}.{extension}";
+            // A signed link is a download. Unpaid invitations never receive one, even for a file created earlier.
+            if (d.Invitation is not { IsUnlocked: false })
+            {
+                var linkExpires = now.AddMinutes(linkMinutes);
+                url = $"/api/v1/downloads/{d.Id}/file?exp={linkExpires.ToUnixTimeSeconds()}&sig={signer.Sign(d.Id, linkExpires)}";
+            }
         }
 
         return new DownloadDto(d.Id, d.InvitationId, title, d.Format, d.Dpi, d.HasWatermark, status, d.FileSizeBytes,

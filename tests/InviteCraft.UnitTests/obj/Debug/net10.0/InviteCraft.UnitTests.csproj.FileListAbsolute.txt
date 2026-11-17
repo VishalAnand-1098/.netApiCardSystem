@@ -133,3 +133,4 @@ C:\cardsharingplatform\backend\tests\InviteCraft.UnitTests\obj\Debug\net10.0\ref
 C:\cardsharingplatform\backend\tests\InviteCraft.UnitTests\obj\Debug\net10.0\InviteCraft.UnitTests.pdb
 C:\cardsharingplatform\backend\tests\InviteCraft.UnitTests\obj\Debug\net10.0\InviteCraft.UnitTests.genruntimeconfig.cache
 C:\cardsharingplatform\backend\tests\InviteCraft.UnitTests\obj\Debug\net10.0\ref\InviteCraft.UnitTests.dll
+C:\cardsharingplatform\backend\tests\InviteCraft.UnitTests\obj\Debug\net10.0\InviteCraft.UnitTests.sourcelink.json

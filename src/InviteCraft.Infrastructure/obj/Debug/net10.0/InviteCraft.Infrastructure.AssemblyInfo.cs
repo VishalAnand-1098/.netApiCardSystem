@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("InviteCraft")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("0.1.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.1.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("0.1.0+b140c19c326e55e9af27a174e92cbed3c50b5c30")]
 [assembly: System.Reflection.AssemblyProductAttribute("InviteCraft")]
 [assembly: System.Reflection.AssemblyTitleAttribute("InviteCraft.Infrastructure")]
 [assembly: System.Reflection.AssemblyVersionAttribute("0.1.0.0")]

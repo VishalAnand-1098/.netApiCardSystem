@@ -133,3 +133,4 @@ C:\cardsharingplatform\backend\src\InviteCraft.Infrastructure\bin\Debug\net10.0\
 C:\cardsharingplatform\backend\src\InviteCraft.Infrastructure\bin\Debug\net10.0\.playwright\package\types\structs.d.ts
 C:\cardsharingplatform\backend\src\InviteCraft.Infrastructure\bin\Debug\net10.0\.playwright\package\types\types.d.ts
 C:\cardsharingplatform\backend\src\InviteCraft.Infrastructure\bin\Debug\net10.0\playwright.ps1
+C:\cardsharingplatform\backend\src\InviteCraft.Infrastructure\obj\Debug\net10.0\InviteCraft.Infrastructure.sourcelink.json
