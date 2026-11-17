@@ -258,7 +258,7 @@ public class PaymentSettingsValidatorTests
 
         var noWebhook = Razorpay();
         noWebhook.WebhookSecret = " ";
-        Validate(noWebhook, Environments.Production).FailureMessage.ShouldContain("WebhookSecret");
+        Validate(noWebhook, Environments.Production).Succeeded.ShouldBeTrue();
 
         var http = Razorpay();
         http.ApiBaseUrl = "http://api.razorpay.com/v1/";

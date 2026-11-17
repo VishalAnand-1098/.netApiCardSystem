@@ -49,8 +49,8 @@ internal sealed class PaymentSettingsValidator(IHostEnvironment environment) : I
         {
             if (string.IsNullOrWhiteSpace(settings.KeyId) || string.IsNullOrWhiteSpace(settings.KeySecret))
                 errors.Add("Payments:KeyId and Payments:KeySecret are required for Razorpay. Set them with user-secrets or the Payments__KeyId / Payments__KeySecret environment variables.");
-            if (string.IsNullOrWhiteSpace(settings.WebhookSecret))
-                errors.Add("Payments:WebhookSecret is required for Razorpay (the secret you set on the webhook in the Razorpay dashboard).");
+            // WebhookSecret signs Razorpay's server-to-server notifications. Checkout still works without it;
+            // deliveries are rejected until Payments__WebhookSecret is set.
             if (!Uri.TryCreate(settings.ApiBaseUrl, UriKind.Absolute, out var uri) || uri.Scheme != Uri.UriSchemeHttps)
                 errors.Add("Payments:ApiBaseUrl must be an https URL.");
         }
