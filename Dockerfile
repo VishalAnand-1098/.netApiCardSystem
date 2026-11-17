@@ -14,6 +14,7 @@ RUN dotnet publish src/InviteCraft.Api/InviteCraft.Api.csproj -c Release -o /app
 FROM mcr.microsoft.com/dotnet/aspnet:10.0 AS runtime
 WORKDIR /app
 COPY --from=build /app/publish .
+COPY deploy/media/public/ App_Data/storage/public/
 
 ENV ASPNETCORE_ENVIRONMENT=Production \
     DOTNET_RUNNING_IN_CONTAINER=true \
