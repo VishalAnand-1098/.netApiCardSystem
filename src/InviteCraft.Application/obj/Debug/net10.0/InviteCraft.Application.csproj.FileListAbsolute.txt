@@ -1,0 +1,15 @@
+C:\cardsharingplatform\backend\src\InviteCraft.Application\bin\Debug\net10.0\InviteCraft.Application.deps.json
+C:\cardsharingplatform\backend\src\InviteCraft.Application\bin\Debug\net10.0\InviteCraft.Application.dll
+C:\cardsharingplatform\backend\src\InviteCraft.Application\bin\Debug\net10.0\InviteCraft.Application.pdb
+C:\cardsharingplatform\backend\src\InviteCraft.Application\bin\Debug\net10.0\InviteCraft.Domain.dll
+C:\cardsharingplatform\backend\src\InviteCraft.Application\bin\Debug\net10.0\InviteCraft.Domain.pdb
+C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\InviteCraft.Application.csproj.AssemblyReference.cache
+C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\InviteCraft.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\InviteCraft.Application.AssemblyInfoInputs.cache
+C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\InviteCraft.Application.AssemblyInfo.cs
+C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\InviteCraft.Application.csproj.CoreCompileInputs.cache
+C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\InviteCr.EC266AC2.Up2Date
+C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\InviteCraft.Application.dll
+C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\refint\InviteCraft.Application.dll
+C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\InviteCraft.Application.pdb
+C:\cardsharingplatform\backend\src\InviteCraft.Application\obj\Debug\net10.0\ref\InviteCraft.Application.dll

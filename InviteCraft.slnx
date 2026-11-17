@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
+    <File Path="global.json" />
+  </Folder>
+  <Folder Name="/src/">
+    <Project Path="src/InviteCraft.Domain/InviteCraft.Domain.csproj" />
+    <Project Path="src/InviteCraft.Application/InviteCraft.Application.csproj" />
+    <Project Path="src/InviteCraft.Infrastructure/InviteCraft.Infrastructure.csproj" />
+    <Project Path="src/InviteCraft.Api/InviteCraft.Api.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/InviteCraft.UnitTests/InviteCraft.UnitTests.csproj" />
+    <Project Path="tests/InviteCraft.IntegrationTests/InviteCraft.IntegrationTests.csproj" />
+  </Folder>
+</Solution>

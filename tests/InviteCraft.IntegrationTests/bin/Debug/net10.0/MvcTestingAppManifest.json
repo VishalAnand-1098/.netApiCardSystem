@@ -1,0 +1,6 @@
+{
+  "InviteCraft.Api, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null": "C:\\cardsharingplatform\\backend\\src\\InviteCraft.Api",
+  "InviteCraft.Application, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null": "C:\\cardsharingplatform\\backend\\src\\InviteCraft.Application",
+  "InviteCraft.Domain, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null": "C:\\cardsharingplatform\\backend\\src\\InviteCraft.Domain",
+  "InviteCraft.Infrastructure, Version=0.1.0.0, Culture=neutral, PublicKeyToken=null": "C:\\cardsharingplatform\\backend\\src\\InviteCraft.Infrastructure"
+}

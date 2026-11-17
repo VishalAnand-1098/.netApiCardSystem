@@ -1,0 +1,14 @@
+@baseUrl = http://localhost:5080
+
+### Liveness (no dependencies)
+GET {{baseUrl}}/health/live
+
+### Readiness (checks PostgreSQL)
+GET {{baseUrl}}/health/ready
+
+### System info (standard response envelope)
+GET {{baseUrl}}/api/v1/system/info
+Accept: application/json
+
+### OpenAPI document (Development only) — interactive UI at {{baseUrl}}/scalar
+GET {{baseUrl}}/openapi/v1.json

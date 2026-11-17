@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- Domain has no package dependencies by design. -->
+  <PropertyGroup>
+    <RootNamespace>InviteCraft.Domain</RootNamespace>
+  </PropertyGroup>
+</Project>

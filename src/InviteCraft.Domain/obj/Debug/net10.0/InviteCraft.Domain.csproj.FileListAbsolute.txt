@@ -1,0 +1,11 @@
+C:\cardsharingplatform\backend\src\InviteCraft.Domain\bin\Debug\net10.0\InviteCraft.Domain.deps.json
+C:\cardsharingplatform\backend\src\InviteCraft.Domain\bin\Debug\net10.0\InviteCraft.Domain.dll
+C:\cardsharingplatform\backend\src\InviteCraft.Domain\bin\Debug\net10.0\InviteCraft.Domain.pdb
+C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\InviteCraft.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\InviteCraft.Domain.AssemblyInfoInputs.cache
+C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\InviteCraft.Domain.AssemblyInfo.cs
+C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\InviteCraft.Domain.csproj.CoreCompileInputs.cache
+C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\InviteCraft.Domain.dll
+C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\refint\InviteCraft.Domain.dll
+C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\InviteCraft.Domain.pdb
+C:\cardsharingplatform\backend\src\InviteCraft.Domain\obj\Debug\net10.0\ref\InviteCraft.Domain.dll
