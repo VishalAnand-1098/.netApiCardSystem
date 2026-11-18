@@ -1,0 +1,20 @@
+name: Keep the API awake
+
+# Render's free web service shuts down after about 15 minutes without a request.
+# This ping runs from GitHub so the process is still running when a visitor arrives.
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Ping the live health check
+        run: |
+          curl --fail --show-error --silent \
+            --retry 6 --retry-all-errors --retry-delay 15 \
+            --max-time 60 \
+            "https://netapicardsystem.onrender.com/health/live"
